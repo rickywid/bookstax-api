@@ -7,6 +7,7 @@ var cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var userUpdateRouter = require('./routes/userUpdate');
+var userAddBookRouter = require('./routes/userAddBook');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -34,6 +35,7 @@ app.use('/', indexRouter);
 // return user data including lists
 app.use('/user/:user_id', usersRouter);
 app.use('/user/update/:user_id', userUpdateRouter);
+app.use('/user/addbook/:user_id', userAddBookRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
