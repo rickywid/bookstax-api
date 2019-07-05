@@ -3,7 +3,7 @@ var router = express.Router();
 const { Pool, Client } = require('pg');
 var db = require('../db');
 
-/* GET users listing. */
+/* GET users books from bookshelf. */
 router.get('/', function(req, res, next) {
   db.query(`
     SELECT 

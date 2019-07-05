@@ -7,7 +7,8 @@ var cors = require('cors');
 
 // routes
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userProfileRouter = require('./routes/userProfile');
+var userBookshelfRouter = require('./routes/userBookshelf');
 var userUpdateRouter = require('./routes/userUpdate');
 var userAddBookRouter = require('./routes/userAddBook');
 var userGetListLikes = require('./routes/userGetListLikes')
@@ -37,10 +38,14 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use('/', indexRouter);
 
-// return user data including lists
-app.use('/user/:user_id', usersRouter);
+// User Routes
+app.use('/user/:user_id', userProfileRouter); // Get User's bookshelf
+app.use('/user/bookshelf/:user_id', userBookshelfRouter); // Get User's bookshelf
 app.use('/user/update/books/:user_id', userUpdateRouter); // update users book lists during drag n drop
 app.use('/user/addbook/:user_id', userAddBookRouter); // update backlog list when user adds new book to backlog
+
+
+// Likes/Thumbsup
 app.use('/user/list/likes', userGetListLikes) // check to see if user has liked a specific list
 app.use('/user/update/list/likes', ListAddLike) // add new like id to likes table when user likes a list
 app.use('/user/update/list/likes', ListRemoveLike) // remove like id from likes table when user removes a like
