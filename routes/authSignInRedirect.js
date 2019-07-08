@@ -5,22 +5,22 @@ var db = require('../db');
 const passport = require('passport');
 const jwt = require('jwt-simple');
 
+function generateToken() {
+  const timestamp = new Date().getTime();
+  const token = jwt.encode({ sub: '1', iat: timestamp }, 'somesecretstring')
+
+  return token;  
+}
+
 // Google Strategy
 const googleAuthSignIn = passport.authenticate(
   'google', 
   { 
     scope: ['profile'],
     failureRedirect: 'http://localhost:3000/signin/',
-    successRedirect: 'http://localhost:3000/redirect',
-    session: true
+    successRedirect: `http://localhost:3000/redirect?token=${generateToken()}`,
   });
 
-router.get('/', function(req, res){
-  const timestamp = new Date().getTime();
-  const token = jwt.encode({ sub: '1', iat: timestamp }, 'somesecretstring')
-  
-  console.log(token)
-  res.redirect(`http://localhost:3000/redirect?token=${token}`);
-});
+router.get('/', googleAuthSignIn);
 
 module.exports = router;
