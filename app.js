@@ -4,9 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var passport = require('passport');
+var session = require('express-session');
 
 // routes
 var indexRouter = require('./routes/index');
+var authSignInRouter = require('./routes/authSignIn');
+var authSignInRedirectRouter = require('./routes/authSignInRedirect');
 var userProfileRouter = require('./routes/userProfile');
 var userBookshelfRouter = require('./routes/userBookshelf');
 var userUpdateRouter = require('./routes/userUpdate');
@@ -26,20 +30,29 @@ app.use(bodyParser.urlencoded({ extended: false }))
  
 // parse application/json
 app.use(bodyParser.json())
-app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true, // allow cookies to pass through
+}));
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+// initialize passport and create passport session. (must be in this specific order!)
+app.use(session({ secret: 'keyboard cat' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use('/', indexRouter);
+app.use('/signin', authSignInRouter);
+app.use('/signin/redirect', authSignInRedirectRouter);
 
 // User Routes
-app.use('/user/:user_id', userProfileRouter); // Get User's bookshelf
+app.use('/user/:user_id', userProfileRouter); // Get User's profile
 app.use('/user/bookshelf/:user_id', userBookshelfRouter); // Get User's bookshelf
 app.use('/user/update/books/:user_id', userUpdateRouter); // update users book lists during drag n drop
 app.use('/user/addbook/:user_id', userAddBookRouter); // update backlog list when user adds new book to backlog

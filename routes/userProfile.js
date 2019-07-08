@@ -5,6 +5,7 @@ var db = require('../db');
 
 /* GET users books from bookshelf. */
 router.get('/', function(req, res, next) {
+  console.log(req.cookies)
   db.query(`
     SELECT * FROM Users where id = 1`, (err, result)=>{
     if(err) {
