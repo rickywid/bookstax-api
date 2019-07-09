@@ -1,11 +1,5 @@
 const passport = require('passport');
-// const User = require('../models/user');
-// const config = require('../config');
-// const JwtStrategy = require('passport-jwt').Strategy;
-// const ExtractJwt = require('passport-jwt').ExtractJwt;
-// const LocalStrategy = require('passport-local');
-// const bcrypt = require('bcrypt-nodejs');
-var db = require('../db');
+const db = require('../db');
 const { Pool, Client } = require('pg');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -54,24 +48,6 @@ const googleStrategy = new GoogleStrategy({
       console.log('found')
       return cb(null, q1.rows);  
     }
-
-    // db.query(`
-    //   SELECT * from Users where email = $1;
-    //   `, [`${profile.displayName}@gmail.com`], (err, result)=>{
-    //     console.log(result)
-    //   if(err) {
-    //     console.log(err)
-    //     return next(err);
-    //   } else {
-    //     if(result.rows.length === 0) {
-    //       console.log(result.rows)
-    //       // user doesnt exist, add user to db
-    //     } else {
-    //       // user exists
-    //       return cb(err, result);  
-    //     }
-    //   }
-    // });
   }
 );
 
@@ -83,7 +59,4 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-// Tell passport to use these strategies
-// passport.use(jwtLogin);
-// passport.use(localLogin);
 passport.use(googleStrategy);

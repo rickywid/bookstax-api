@@ -7,7 +7,7 @@ var db = require('../db');
 router.get('/', function(req, res, next) {
   console.log(req.cookies)
   db.query(`
-    SELECT * FROM Users where id = 1`, (err, result)=>{
+    SELECT * FROM Users where id = 2`, (err, result)=>{
     if(err) {
       console.log(err)
       return next(err);
