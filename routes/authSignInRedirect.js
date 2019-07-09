@@ -16,7 +16,7 @@ function generateToken() {
 const googleAuthSignIn = passport.authenticate(
   'google', 
   { 
-    scope: ['profile'],
+    scope: ['email', 'profile'],
     failureRedirect: 'http://localhost:3000/signin/',
     successRedirect: `http://localhost:3000/redirect?token=${generateToken()}`,
   });
@@ -24,3 +24,4 @@ const googleAuthSignIn = passport.authenticate(
 router.get('/', googleAuthSignIn);
 
 module.exports = router;
+ 

@@ -24,7 +24,8 @@ const googleStrategy = new GoogleStrategy({
     }
 
 
-    // create a new Bookshelf record first and then create a new user record and use the id of the new Bookshelf record as the user's list_id
+    // create a new Bookshelf record first and then create a new user record and use the id of the new Bookshelf record as the user's list_id and
+    // return the user's id
     const query2 = {
       text: `with t1 AS(INSERT INTO Bookshelf(backlog, currently, completed, like_count, created_at) VALUES('[]','[]','[]',0,NOW()) RETURNING id) 
                   INSERT INTO Users (name, email, list_id, created_at)
@@ -39,14 +40,16 @@ const googleStrategy = new GoogleStrategy({
       // user doesnt exist, add user to db
       const q2 = await pool.query(query2);
 
-
       console.log('not found');
+      console.log(q2)
       return cb(null, q2);  
       
     } else {
       // user exists
       console.log('found')
-      return cb(null, q1.rows);  
+      const user = q1.rows[0];
+
+      return cb(null, user);  
     }
   }
 );
