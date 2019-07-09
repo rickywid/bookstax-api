@@ -53,7 +53,7 @@ app.use('/signin/redirect', authSignInRedirectRouter);
 
 // User Routes
 app.use('/user/:user_id', userProfileRouter); // Get User's profile
-app.use('/user/bookshelf/:user_id', userBookshelfRouter); // Get User's bookshelf
+app.use('/user/bookshelf', userBookshelfRouter); // Get User's bookshelf
 app.use('/user/update/books/:user_id', userUpdateRouter); // update users book lists during drag n drop
 app.use('/user/addbook/:user_id', userAddBookRouter); // update backlog list when user adds new book to backlog
 
