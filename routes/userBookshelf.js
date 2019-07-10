@@ -6,7 +6,6 @@ var db = require('../db');
 /* GET users books from bookshelf. */
 router.get('/:bookshelf_id', function(req, res, next) {
   const bookshelfId = req.params.bookshelf_id;
-  console.log('bookshelf id: ', bookshelfId)
   db.query(`
     SELECT 
       Bookshelf.backlog,

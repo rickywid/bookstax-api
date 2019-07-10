@@ -5,8 +5,6 @@ var db = require('../db');
 
 /* GET users listing. */
 router.put('/', function(req, res, next) {
-  console.log('====== REQUEST ========')
-  console.log(req.body.data)
   db.query(`
     UPDATE 
       bookshelf

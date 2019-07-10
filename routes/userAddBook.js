@@ -5,8 +5,6 @@ var db = require('../db');
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-  console.log('====== REQUEST ========')
-  console.log(req.body)
   db.query(`
     UPDATE 
       bookshelf
@@ -18,8 +16,6 @@ router.post('/', function(req, res, next) {
       return next(err);
     } else {
       data = result;
-
-      console.log(data)
       res.json(data.rows);
     }
   });

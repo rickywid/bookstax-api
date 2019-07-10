@@ -13,13 +13,10 @@ router.post('/', function(req, res, next) {
       console.log(err)
       return next(err);
     } else {
-      console.log('/users')
       data = result;
       res.json(data.rows);
     }
   });
-
-  console.log('add like!!!')
 });
 
 module.exports = router;

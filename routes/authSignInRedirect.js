@@ -21,7 +21,7 @@ const googleAuthSignIn = passport.authenticate(
     successRedirect: `http://localhost:3000/redirect?token=${generateToken()}`,
   });
 
-router.get('/', googleAuthSignIn);
+router.get('/', googleAuthSignIn );
 
 module.exports = router;
  
