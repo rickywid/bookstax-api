@@ -11,6 +11,7 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var authSignInRouter = require('./routes/authSignIn');
 var authSignInRedirectRouter = require('./routes/authSignInRedirect');
+var userAuthProfileRouter = require('./routes/userAuthProfile');
 var userProfileRouter = require('./routes/userProfile');
 var userBookshelfRouter = require('./routes/userBookshelf');
 var userUpdateRouter = require('./routes/userUpdate');
@@ -52,7 +53,8 @@ app.use('/signin', authSignInRouter);
 app.use('/signin/redirect', authSignInRedirectRouter);
 
 // User Routes
-app.use('/user/:user_id', userProfileRouter); // Get User's profile
+app.use('/user/auth', userAuthProfileRouter); // Get Logged in User's profile
+app.use('/user', userProfileRouter); // Get User's profile
 app.use('/user/bookshelf', userBookshelfRouter); // Get User's bookshelf
 app.use('/user/update/books/:user_id', userUpdateRouter); // update users book lists during drag n drop
 app.use('/user/addbook/:user_id', userAddBookRouter); // update backlog list when user adds new book to backlog

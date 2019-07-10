@@ -40,19 +40,18 @@ const googleStrategy = new GoogleStrategy({
       // user doesnt exist, add user to db
       const q2 = await pool.query(query2);
 
-      console.log('not found');
       console.log(q2)
       return cb(null, q2);  
       
     } else {
       // user exists
-      console.log('found')
       const user = q1.rows[0];
-
       return cb(null, user);  
     }
   }
 );
+
+// https://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize
 
 passport.serializeUser(function(user, done) {
   done(null, user);
