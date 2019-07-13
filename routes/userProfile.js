@@ -5,10 +5,6 @@ var db = require('../db');
 
 /* GET users books from bookshelf. */
 router.get('/:user_id', function(req, res, next) {
-  console.log(req.user)
-  console.log('***USER PROFILE***')
-  // const userId = req.user.id || req.user.rows[0].id;
-  console.log(req.params.user_id)
   db.query(`
     SELECT * FROM Users where id = $1`, [req.params.user_id], (err, result)=>{
     if(err) {

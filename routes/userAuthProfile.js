@@ -5,8 +5,6 @@ var db = require('../db');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  console.log(req.user);
-  console.log('***userAuthProfile***')
   db.query(`
     SELECT * from Users where id = $1;
     `, [req.user.id], (err, result)=>{

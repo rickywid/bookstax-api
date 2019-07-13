@@ -21,8 +21,6 @@ router.put('/', function(req, res, next) {
       return next(err);
     } else {
       data = result;
-
-      console.log(data)
       res.json(data.rows);
     }
   });
