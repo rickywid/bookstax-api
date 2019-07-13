@@ -16,7 +16,9 @@ var userProfileRouter = require('./routes/userProfile');
 var userBookshelfRouter = require('./routes/userBookshelf');
 var userUpdateRouter = require('./routes/userUpdate');
 var userAddBookRouter = require('./routes/userAddBook');
-var userGetListLikes = require('./routes/userGetListLikes')
+var userGetListLikes = require('./routes/userGetListLikes');
+var newBookshelfCommentRouter = require('./routes/newBookshelfComment');
+var bookshelfCommentsRouter = require('./routes/bookshelfComments');
 var ListRemoveLike = require('./routes/listRemoveLike');
 var ListAddLike = require('./routes/listAddLike');
 var bodyParser = require('body-parser');
@@ -59,11 +61,14 @@ app.use('/user/bookshelf', userBookshelfRouter); // Get User's bookshelf
 app.use('/user/update/books/:user_id', userUpdateRouter); // update users book lists during drag n drop
 app.use('/user/addbook/:user_id', userAddBookRouter); // update backlog list when user adds new book to backlog
 
-
 // Likes/Thumbsup
 app.use('/user/list/likes', userGetListLikes) // check to see if user has liked a specific list
 app.use('/user/update/list/likes', ListAddLike) // add new like id to likes table when user likes a list
 app.use('/user/update/list/likes', ListRemoveLike) // remove like id from likes table when user removes a like
+
+// Bookshelf comment
+app.use('/bookshelf/comments/', bookshelfCommentsRouter); // get bookshelf comments
+app.use('/bookshelf/comment/new', newBookshelfCommentRouter); // add new bookshelf comment
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
