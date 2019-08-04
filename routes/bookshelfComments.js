@@ -8,6 +8,7 @@ router.get('/:list_id', async function(req, res, next) {
   console.log(req.params.list_id);
   const query = {
     text: `SELECT 
+              Users.id as user_id,
               Users.name, 
               Comments.comment, 
               Comments.created_at
@@ -20,7 +21,7 @@ router.get('/:list_id', async function(req, res, next) {
   }
 
   const q = await db.query(query);
-  
+  console.log(q)
   res.json({
     comments: q.rows
   })
