@@ -10,8 +10,8 @@ router.put('/', function(req, res, next) {
       bookshelf
     SET 
       backlog = $1,    
-      currently = $2,
-      completed = $3
+      completed = $2,
+      currently = $3
     WHERE bookshelf.id = 1
     RETURNING 
       backlog, currently, completed;
