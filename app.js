@@ -21,6 +21,8 @@ var newBookshelfCommentRouter = require('./routes/newBookshelfComment');
 var bookshelfCommentsRouter = require('./routes/bookshelfComments');
 var ListRemoveLike = require('./routes/listRemoveLike');
 var ListAddLike = require('./routes/listAddLike');
+var addFavouriteBookRouter = require('./routes/addFavouriteBook');
+var getUserFavouriteBooksRouter = require('./routes/getUserFavouriteBook');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -65,7 +67,7 @@ app.use('/signin/redirect', authSignInRedirectRouter);
 app.use('/user/auth', userAuthProfileRouter); // Get Logged in User's profile
 app.use('/user', userProfileRouter); // Get User's profile
 app.use('/user/bookshelf', userBookshelfRouter); // Get User's bookshelf
-app.use('/user/update/books/:user_id', userUpdateRouter); // update users book lists during drag n drop
+app.use('/user/update/books', userUpdateRouter); // update users book lists during drag n drop
 app.use('/user/addbook/:user_id', userAddBookRouter); // update backlog list when user adds new book to backlog
 
 // Likes/Thumbsup
@@ -76,6 +78,10 @@ app.use('/user/update/list/likes', ListRemoveLike) // remove like id from likes 
 // Bookshelf comment
 app.use('/bookshelf/comments/', bookshelfCommentsRouter); // get bookshelf comments
 app.use('/bookshelf/comment/new', newBookshelfCommentRouter); // add new bookshelf comment
+
+// Add book to favourites
+app.use('/favourites/', getUserFavouriteBooksRouter); // add book to favourites list
+app.use('/favourites/add', addFavouriteBookRouter); // add book to favourites list
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

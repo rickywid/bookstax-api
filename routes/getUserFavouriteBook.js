@@ -4,20 +4,25 @@ const { Pool, Client } = require('pg');
 var db = require('../db');
 
 /* GET users listing. */
-router.post('/', function(req, res, next) {
+router.get('/:user_id', function(req, res, next) {
   console.log(req.body.content)
   db.query(`
-    UPDATE 
-      bookshelf
-       SET backlog = backlog || $1::jsonb
-    WHERE bookshelf.id = $2;
-    `, [req.body.content, req.body.id], (err, result)=>{
+    SELECT
+      favourites.books 
+    FROM favourites
+    JOIN 
+      users
+    ON
+      favourites.id = users.favourite_books_id
+    WHERE users.id = $1
+    `, [req.params.user_id], (err, result)=>{
     if(err) {
       console.log(err);
       return next(err);
     } else {
       data = result;
-      res.json(data.rows);
+      console.log(data)
+      res.json(data.rows[0].books);
     }
   });
 });

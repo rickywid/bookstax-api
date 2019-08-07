@@ -27,10 +27,10 @@ const googleStrategy = new GoogleStrategy({
     // create a new Bookshelf record first and then create a new user record and use the id of the new Bookshelf record as the user's list_id and
     // return the user's id
     const query2 = {
-      text: `with t1 AS(INSERT INTO Bookshelf(backlog, currently, completed, like_count, created_at) VALUES('[]','[]','[]',0,NOW()) RETURNING id) 
-                  INSERT INTO Users (name, email, list_id, created_at)
-
-              SELECT $1, $2, t1.id, NOW() FROM t1 RETURNING id`,
+      text: `with t1 AS(INSERT INTO Bookshelf(backlog, currently, completed, like_count, created_at) VALUES('[]','[]','[]',0,NOW()) RETURNING id),
+                  t2 AS(INSERT INTO Favourites(books, created_at) values('[]', NOW()) RETURNING id) 
+                  INSERT INTO Users (name, email, list_id, favourite_books_id, created_at)
+              SELECT $1, $2, t1.id, t2.id, NOW() FROM t1,t2 RETURNING id`,
       values: [profile.displayName, profile.emails[0].value],
     }
     

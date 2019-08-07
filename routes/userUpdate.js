@@ -4,7 +4,7 @@ const { Pool, Client } = require('pg');
 var db = require('../db');
 
 /* GET users listing. */
-router.put('/', function(req, res, next) {
+router.put('/:user_id', function(req, res, next) {
   db.query(`
     UPDATE 
       bookshelf
@@ -12,10 +12,10 @@ router.put('/', function(req, res, next) {
       backlog = $1,    
       completed = $2,
       currently = $3
-    WHERE bookshelf.id = 1
+    WHERE bookshelf.id = $4
     RETURNING 
       backlog, currently, completed;
-    `, [JSON.stringify(req.body.data[0]), JSON.stringify(req.body.data[1]), JSON.stringify(req.body.data[2])], (err, result)=>{
+    `, [JSON.stringify(req.body.data[0]), JSON.stringify(req.body.data[1]), JSON.stringify(req.body.data[2]), req.params.user_id], (err, result)=>{
     if(err) {
       console.log(err);
       return next(err);
