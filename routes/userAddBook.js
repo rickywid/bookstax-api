@@ -5,6 +5,7 @@ var db = require('../db');
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
+  console.log('+++++++++++++++++')
   console.log(req.body.content)
   db.query(`
     UPDATE 
