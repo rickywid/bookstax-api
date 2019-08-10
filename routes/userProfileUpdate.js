@@ -4,36 +4,56 @@ const { Pool, Client } = require('pg');
 var db = require('../db');
 
 router.post('/:user_id/update', async function(req, res, next) {
-  console.log(req.body);
+  const userId = req.params.user_id;
+  const name = req.body.username;
+  const email = req.body.email;
+  const location = req.body.country;
+  const description = req.body.bio;
+  const twitter = req.body.twitter;
+  const instagram = req.body.instagram;
+  const genres = req.body.genres;
 
   // update user's profile
   const query1 = { 
-    text: ``,
-    values: []
+    text: `
+      UPDATE Users
+      SET 
+        name = $1,
+        description = $2,
+        email = $3,
+        location = $4,
+        twitter_id = $5,
+        instagram_id = $6
+      WHERE
+         id = $7;
+    `,
+    values: [name, description, email, location, twitter, instagram, userId]
   }
 
   // update users's genres
   const query2 = {
     text: `
-      with d 
-      as (
-        delete from users_genres 
-        where user_id=$1 
-        and genre_id <> ALL ($2)
+      WITH d 
+      AS (
+        DELETE FROM users_genres 
+        WHERE user_id=$1 
+        AND genre_id <> ALL ($2)
       ) 
 
-      insert into users_genres(user_id, genre_id) 
+      INSERT INTO users_genres(user_id, genre_id) 
 
-      select $1, u.genre_id 
-      from unnest($2) 
-      as u(genre_id) 
-      on conflict do nothing;                                             
+      SELECT $1, u.genre_id 
+      FROM unnest($2) 
+      AS u(genre_id) 
+      ON conflict do nothing;                                             
     `,
-    values: [17, [4,5,6,7,8,9,10]]
+    values: [userId, genres]
   }
 
+  const q1 = await db.query(query1);
   const q2 = await db.query(query2);
-  console.log(q2);
+  
+  res.status(200); 
 
 });
 

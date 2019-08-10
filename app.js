@@ -72,7 +72,7 @@ app.use('/user', userProfileUpdateRouter) // Update Users's profile
 app.use('/user/bookshelf', userBookshelfRouter); // Get User's bookshelf
 app.use('/user/update/books', userUpdateRouter); // update users book lists during drag n drop
 app.use('/user/addbook/:user_id', userAddBookRouter); // update backlog list when user adds new book to backlog
-// app.use('/user/:user_id/genre', userGetGenreRouter); // Get Users's genres 
+app.use('/user', userGetGenreRouter); // Get Users's genres 
 
 // Likes/Thumbsup
 app.use('/user/list/likes', userGetListLikes) // check to see if user has liked a specific list
