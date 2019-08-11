@@ -5,7 +5,8 @@ var db = require('../db');
 
 router.post('/:user_id/update', async function(req, res, next) {
   const userId = req.params.user_id;
-  const name = req.body.username;
+  const name = req.body.name;
+  // const username = req.body.username;
   const email = req.body.email;
   const location = req.body.country;
   const description = req.body.bio;
