@@ -3,11 +3,14 @@ var router = express.Router();
 const { Pool, Client } = require('pg');
 var db = require('../db');
 
-/* GET users listing. */
+
 router.get('/', function(req, res, next) {
+  const id = req.user.id || req.user.rows[0].id;
+  console.log(id)
+
   db.query(`
     SELECT * from Users where id = $1;
-    `, [req.user.id], (err, result)=>{
+    `, [id], (err, result)=>{
     if(err) {
       console.log(err);
       return next(err);
