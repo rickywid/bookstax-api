@@ -25,7 +25,7 @@ router.get('/:user_id/genre', async function(req, res, next) {
       WHERE
         Users.id = $1;
     `,
-    values: [17]
+    values: [req.params.user_id]
   }
 
   const q1 = await db.query(query1);
