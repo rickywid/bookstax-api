@@ -13,7 +13,9 @@ router.post('/:user_id/update', async function(req, res, next) {
   const twitter = req.body.twitter;
   const instagram = req.body.instagram;
   const genres = req.body.genres;
-
+  const avatarUrl = req.body.file;
+  console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+  console.log('avatar', avatarUrl)
   // update user's profile
   const query1 = { 
     text: `
@@ -24,11 +26,12 @@ router.post('/:user_id/update', async function(req, res, next) {
         email = $3,
         location = $4,
         twitter_id = $5,
-        instagram_id = $6
+        instagram_id = $6,
+        avatar_url = $7
       WHERE
-         id = $7;
+         id = $8;
     `,
-    values: [name, description, email, location, twitter, instagram, userId]
+    values: [name, description, email, location, twitter, instagram, avatarUrl, userId]
   }
 
   // update users's genres

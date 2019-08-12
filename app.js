@@ -25,7 +25,9 @@ var ListRemoveLike = require('./routes/listRemoveLike');
 var ListAddLike = require('./routes/listAddLike');
 var addFavouriteBookRouter = require('./routes/addFavouriteBook');
 var getUserFavouriteBooksRouter = require('./routes/getUserFavouriteBook');
+var userProfileImgUploadRouter = require('./routes/userProfileImgUpload')
 var bodyParser = require('body-parser');
+var formData = require('express-form-data')
 
 var app = express();
 
@@ -51,6 +53,9 @@ app.use(cors({
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+// allow file upload
+app.use(formData.parse());
+
 // initialize passport and create passport session. (must be in this specific order!)
 app.use(session({ secret: 'keyboard cat' }));
 app.use(passport.initialize());
@@ -73,6 +78,7 @@ app.use('/user/bookshelf', userBookshelfRouter); // Get User's bookshelf
 app.use('/user/update/books', userUpdateRouter); // update users book lists during drag n drop
 app.use('/user/addbook/:user_id', userAddBookRouter); // update backlog list when user adds new book to backlog
 app.use('/user', userGetGenreRouter); // Get Users's genres 
+app.use('/upload/avatar', userProfileImgUploadRouter); // upload user's profile image
 
 // Likes/Thumbsup
 app.use('/user/list/likes', userGetListLikes) // check to see if user has liked a specific list
