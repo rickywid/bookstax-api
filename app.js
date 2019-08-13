@@ -9,6 +9,8 @@ var session = require('express-session');
 
 // routes
 var indexRouter = require('./routes/index');
+
+var authSignupRouter = require('./routes/authSignup');
 var authSignInRouter = require('./routes/authSignIn');
 var authSignInRedirectRouter = require('./routes/authSignInRedirect');
 var userAuthProfileRouter = require('./routes/userAuthProfile');
@@ -67,8 +69,10 @@ app.use(function(req, res, next){
 });
 
 app.use('/', indexRouter);
+
 app.use('/signin', authSignInRouter);
 app.use('/signin/redirect', authSignInRedirectRouter);
+app.use('/', authSignupRouter);
 
 // User Routes
 app.use('/user/auth', userAuthProfileRouter); // Get Logged in User's profile

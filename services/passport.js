@@ -2,6 +2,8 @@ const passport = require('passport');
 const db = require('../db');
 const { Pool, Client } = require('pg');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const LocalStrategy = require('passport-local');
+const bcrypt = require('bcrypt-nodejs');
 
 const pool = new Pool({
   user: 'ricky', 
@@ -55,6 +57,33 @@ const googleStrategy = new GoogleStrategy({
 
 // https://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize
 
+const localOptions = { usernameField: 'login'};
+const localLogin = new LocalStrategy(localOptions, async function(login, passwordInput, done) {
+  // Verify username and password, call done with the user if it is the correct username and password
+  // otherwise, call done with false
+  const findUser = {
+    text:`
+      SELECT * FROM Users
+      WHERE email = $1
+      OR username = $1;
+    `,
+    values: [login]
+  }
+
+  const q1 = await db.query(findUser);
+  const user = q1.rows;
+
+  // If user not found, return error
+  if (!user.length) { return done(err); }
+
+  // if user found, compare password  
+  bcrypt.compare(passwordInput, user[0].password, function(err, isMatch) {
+    if(err) { return done(err); }
+    if(!isMatch) {return done(null, false); }
+    return done(null, user);
+  });
+});
+
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -64,3 +93,4 @@ passport.deserializeUser(function(user, done) {
 });
 
 passport.use(googleStrategy);
+passport.use(localLogin);
