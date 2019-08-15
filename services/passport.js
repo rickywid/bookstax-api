@@ -2,6 +2,8 @@ const passport = require('passport');
 const db = require('../db');
 const { Pool, Client } = require('pg');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const LocalStrategy = require('passport-local');
+const bcrypt = require('bcrypt-nodejs');
 
 const pool = new Pool({
   user: 'ricky', 
@@ -16,7 +18,9 @@ const googleStrategy = new GoogleStrategy({
     callbackURL: "http://localhost:3001/signin/redirect"
   },
   async function(accessToken, refreshToken, profile, cb) {
-        console.log(profile)
+    console.log(profile)
+    
+    const username = profile.displayName.split(' ').join('_');
 
     const query1 = {
       text: 'SELECT * from Users where email = $1',
@@ -27,11 +31,11 @@ const googleStrategy = new GoogleStrategy({
     // create a new Bookshelf record first and then create a new user record and use the id of the new Bookshelf record as the user's list_id and
     // return the user's id
     const query2 = {
-      text: `with t1 AS(INSERT INTO Bookshelf(backlog, currently, completed, like_count, created_at) VALUES('[]','[]','[]',0,NOW()) RETURNING id) 
-                  INSERT INTO Users (name, email, list_id, created_at)
-
-              SELECT $1, $2, t1.id, NOW() FROM t1 RETURNING id`,
-      values: [profile.displayName, profile.emails[0].value],
+      text: `with t1 AS(INSERT INTO Bookshelf(backlog, currently, completed, like_count, created_at) VALUES('[]','[]','[]',0,NOW()) RETURNING id),
+                  t2 AS(INSERT INTO Favourites(books, created_at) values('[]', NOW()) RETURNING id) 
+                  INSERT INTO Users (name, username, email, list_id, favourite_books_id, created_at)
+              SELECT $1, $2, $3, t1.id, t2.id, NOW() FROM t1,t2 RETURNING id`,
+      values: [profile.displayName, username, profile.emails[0].value],
     }
     
     const q1 = await pool.query(query1);
@@ -53,6 +57,33 @@ const googleStrategy = new GoogleStrategy({
 
 // https://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize
 
+const localOptions = { usernameField: 'login'};
+const localLogin = new LocalStrategy(localOptions, async function(login, passwordInput, done) {
+  // Verify username and password, call done with the user if it is the correct username and password
+  // otherwise, call done with false
+  const findUser = {
+    text:`
+      SELECT * FROM Users
+      WHERE email = $1
+      OR username = $1;
+    `,
+    values: [login]
+  }
+
+  const q1 = await db.query(findUser);
+  const user = q1.rows;
+
+  // If user not found, return error
+  if (!user.length) { return done(err); }
+
+  // if user found, compare password  
+  bcrypt.compare(passwordInput, user[0].password, function(err, isMatch) {
+    if(err) { return done(err); }
+    if(!isMatch) {return done(null, false); }
+    return done(null, user);
+  });
+});
+
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -62,3 +93,4 @@ passport.deserializeUser(function(user, done) {
 });
 
 passport.use(googleStrategy);
+passport.use(localLogin);

@@ -5,12 +5,14 @@ var db = require('../db');
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
+  console.log('+++++++++++++++++')
+  console.log(req.body.content)
   db.query(`
     UPDATE 
       bookshelf
        SET backlog = backlog || $1::jsonb
-    WHERE bookshelf.id = 1;
-    `, [req.body.content], (err, result)=>{
+    WHERE bookshelf.id = $2;
+    `, [req.body.content, req.body.id], (err, result)=>{
     if(err) {
       console.log(err);
       return next(err);

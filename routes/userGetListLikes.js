@@ -18,7 +18,7 @@ router.get('/:user_id/:list_id', async function(req, res, next) {
 
   // get list of users who liked the bookshelf
   const query3 = {
-    text: `select users.id, users.name from users join likes on likes.user_id = users.id where likes.list_id = $1;`,
+    text: `select users.id, users.name, users.username, users.avatar_url from users join likes on likes.user_id = users.id where likes.list_id = $1;`,
     values: [req.params.list_id]
   }
 

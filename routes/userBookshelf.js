@@ -20,6 +20,7 @@ router.get('/:bookshelf_id', function(req, res, next) {
       return next(err);
     } else {
       data = result;
+      // console.log(data.rows[0].completed)
       res.json(data.rows);
     }
   });
