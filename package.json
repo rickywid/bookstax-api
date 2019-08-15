@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/wwwio"
+    "start": "node ./bin/wwwio"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
