@@ -7,7 +7,6 @@ var cors = require('cors');
 var passport = require('passport');
 var session = require('express-session');
 
-// routes
 var indexRouter = require('./routes/index');
 
 var authSignupRouter = require('./routes/authSignup');
