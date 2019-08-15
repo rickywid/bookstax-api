@@ -9,7 +9,8 @@ router.get('/:list_id', async function(req, res, next) {
   const query = {
     text: `SELECT 
               Users.id as user_id,
-              Users.name, 
+              Users.username, 
+              Users.avatar_url,
               Comments.comment, 
               Comments.created_at
             FROM 
