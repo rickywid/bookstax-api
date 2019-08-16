@@ -48,7 +48,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '*',
   credentials: true, // allow cookies to pass through
 }));
 // Serve static files from the React app
