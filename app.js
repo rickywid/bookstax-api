@@ -49,7 +49,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://bookstax-staging.herokuapp.com'],
+  origin: ['http://localhost:3000', 'https://bookstax-staging.herokuapp.com', 'https://bookstax-api.herokuapp.com'],
   credentials: true, // allow cookies to pass through
 }));
 // Serve static files from the React app
