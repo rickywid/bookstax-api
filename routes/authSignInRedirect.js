@@ -17,8 +17,8 @@ const googleAuthSignIn = passport.authenticate(
   'google', 
   { 
     scope: ['email', 'profile'],
-    failureRedirect: 'http://localhost:3000/signin/',
-    successRedirect: `http://localhost:3000/redirect?token=${generateToken()}`,
+    failureRedirect: `${process.env.HOSTNAME}/signin/`,
+    successRedirect: `${process.env.HOSTNAME}/redirect?token=${generateToken()}`,
   });
 
 router.get('/', googleAuthSignIn );

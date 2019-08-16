@@ -28,7 +28,7 @@ var addFavouriteBookRouter = require('./routes/addFavouriteBook');
 var getUserFavouriteBooksRouter = require('./routes/getUserFavouriteBook');
 var userProfileImgUploadRouter = require('./routes/userProfileImgUpload')
 var bodyParser = require('body-parser');
-var formData = require('express-form-data')
+var formData = require('express-form-data');
 
 var app = express();
 
