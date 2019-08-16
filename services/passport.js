@@ -5,13 +5,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt-nodejs');
 
-const pool = new Pool({
-  user: 'ricky', 
-  password: '1111',
-  host: 'localhost', 
-  database: 'bookstax'
-});
-
 const googleStrategy = new GoogleStrategy({
     clientID: '92911553908-au3ga69itoq2okdlkmu5erbnd8s1mlf0.apps.googleusercontent.com',
     clientSecret: 'oQjI41GY7ywx-KB1_ETe8q0f',
@@ -38,11 +31,11 @@ const googleStrategy = new GoogleStrategy({
       values: [profile.displayName, username, profile.emails[0].value],
     }
     
-    const q1 = await pool.query(query1);
+    const q1 = await db.query(query1);
 
     if(q1.rows.length === 0) {
       // user doesnt exist, add user to db
-      const q2 = await pool.query(query2);
+      const q2 = await db.query(query2);
 
       console.log(q2)
       return cb(null, q2);  
