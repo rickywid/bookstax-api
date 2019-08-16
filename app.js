@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cors = require('cors');
 var passport = require('passport');
 var session = require('express-session');
+require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 
@@ -34,7 +35,7 @@ var app = express();
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server)
-
+console.log(process.env.HOSTNAME)
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
