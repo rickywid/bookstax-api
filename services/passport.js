@@ -15,7 +15,7 @@ const pool = new Pool({
 const googleStrategy = new GoogleStrategy({
     clientID: '92911553908-au3ga69itoq2okdlkmu5erbnd8s1mlf0.apps.googleusercontent.com',
     clientSecret: 'oQjI41GY7ywx-KB1_ETe8q0f',
-    callbackURL: `${process.env.HOSTNAME}/signin/redirect`
+    callbackURL: `${process.env.SERVER_HOSTNAME}/signin/redirect`
   },
   async function(accessToken, refreshToken, profile, cb) {
     console.log(profile)
