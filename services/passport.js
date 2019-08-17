@@ -65,9 +65,9 @@ const localLogin = new LocalStrategy(localOptions, async function(login, passwor
 
   const q1 = await db.query(findUser);
   const user = q1.rows;
-
+  console.log(user)
   // If user not found, return error
-  if (!user.length) { return done(err); }
+  if (!user.length) { return done(); }
 
   // if user found, compare password  
   bcrypt.compare(passwordInput, user[0].password, function(err, isMatch) {
