@@ -10,6 +10,7 @@ require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 
+var allUsersRouter = require('./routes/allUsers');
 var authSignupRouter = require('./routes/authSignup');
 var authSignInRouter = require('./routes/authSignIn');
 var authSignInRedirectRouter = require('./routes/authSignInRedirect');
@@ -78,6 +79,7 @@ app.use('/', authSignupRouter);
 app.use('/user/auth', userAuthProfileRouter); // Get Logged in User's profile
 app.use('/user', userProfileRouter); // Get User's profile
 app.use('/user', userProfileUpdateRouter) // Update Users's profile
+app.use('/users', allUsersRouter); // Get all users
 app.use('/user/bookshelf', userBookshelfRouter); // Get User's bookshelf
 app.use('/user/update/books', userUpdateRouter); // update users book lists during drag n drop
 app.use('/user/addbook/:user_id', userAddBookRouter); // update backlog list when user adds new book to backlog
