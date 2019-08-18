@@ -16,6 +16,7 @@ var authSignInRouter = require('./routes/authSignIn');
 var authSignInRedirectRouter = require('./routes/authSignInRedirect');
 var userAuthProfileRouter = require('./routes/userAuthProfile');
 var userProfileRouter = require('./routes/userProfile');
+var userProfileDeleteRouter = require('./routes/userProfileDelete');
 var userBookshelfRouter = require('./routes/userBookshelf');
 var userUpdateRouter = require('./routes/userUpdate');
 var userAddBookRouter = require('./routes/userAddBook');
@@ -78,6 +79,7 @@ app.use('/', authSignupRouter);
 // User Routes
 app.use('/user/auth', userAuthProfileRouter); // Get Logged in User's profile
 app.use('/user', userProfileRouter); // Get User's profile
+app.use('/user/delete', userProfileDeleteRouter); // Delete User's profile
 app.use('/user', userProfileUpdateRouter) // Update Users's profile
 app.use('/users', allUsersRouter); // Get all users
 app.use('/user/bookshelf', userBookshelfRouter); // Get User's bookshelf
