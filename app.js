@@ -7,6 +7,7 @@ var cors = require('cors');
 var passport = require('passport');
 var session = require('express-session');
 require('dotenv').config();
+var WebSocket = require("ws");
 
 var indexRouter = require('./routes/index');
 
@@ -34,6 +35,14 @@ var bodyParser = require('body-parser');
 var formData = require('express-form-data');
 
 var app = express();
+var server = require('http').Server(app);
+var websocketServer = new WebSocket.Server({ server });
+
+
+console.log(websocketServer);
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -109,4 +118,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = { app: app, server: server };
